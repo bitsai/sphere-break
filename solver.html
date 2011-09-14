@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Sphere Break Solver</title>
+    <script src="http://jashkenas.github.com/coffee-script/extras/coffee-script.js"></script>
+    <script src="solver.coffee" type="text/coffeescript"></script>
+    <script type="text/coffeescript">
+      @output = (s) ->
+        document.getElementById('output').innerHTML = s
+
+      @solveGrid = (grid) ->
+        entryNums = (parseInt x.value for x in grid.elements when x.name == 'entry')
+        borderNums = (parseInt x.value for x in grid.elements when x.name == 'border')
+        entryCoins = (x for x in entryNums when not isNaN x)
+        borderCoins = (x for x in borderNums when not isNaN x)
+        output (solve entryCoins, borderCoins).join '<br\>'
+    </script>
+  </head>
+  <body>
+    <form>
+      <table border=1>
+	<tr>
+	  <td><input type="text" name="border" size="1" maxlength="1"/></td>
+	  <td><input type="text" name="border" size="1" maxlength="1"/></td>
+	  <td><input type="text" name="border" size="1" maxlength="1"/></td>
+	  <td><input type="text" name="border" size="1" maxlength="1"/></td>
+	</tr>
+	<tr>
+	  <td><input type="text" name="border" size="1" maxlength="1"/></td>
+	  <td><input type="text" name="entry" size="1" maxlength="1"/></td>
+	  <td><input type="text" name="entry" size="1" maxlength="1"/></td>
+	  <td><input type="text" name="border" size="1" maxlength="1"/></td>
+	</tr>
+	<tr>
+	  <td><input type="text" name="border" size="1" maxlength="1"/></td>
+	  <td><input type="text" name="entry" size="1" maxlength="1"/></td>
+	  <td><input type="text" name="entry" size="1" maxlength="1"/></td>
+	  <td><input type="text" name="border" size="1" maxlength="1"/></td>
+	</tr>
+	<tr>
+	  <td><input type="text" name="border" size="1" maxlength="1"/></td>
+	  <td><input type="text" name="border" size="1" maxlength="1"/></td>
+	  <td><input type="text" name="border" size="1" maxlength="1"/></td>
+	  <td><input type="text" name="border" size="1" maxlength="1"/></td>
+	</tr>
+      </table>
+      <input type="button" value="Solve!" onClick="solveGrid(this.form)"/>
+      <input type="reset" value="Reset" onClick="output('')"/>
+      <br/>
+      <span id="output"></span>
+    </form>
+  </body>
+</html>
