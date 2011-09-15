@@ -42,4 +42,4 @@ indexCombinations = (array, pos, maxPos) ->
   else
     [array.slice 0, maxPos]
 
-# console.log solve [1,2,3,7], [1,6,5,9,3,8,6,3,4,4,9,7]
+# console.log @solve [1,2,3,7], [1,6,5,9,3,8,6,3,4,4,9,7]
