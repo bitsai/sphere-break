@@ -7,6 +7,11 @@
       @output = (text) ->
         document.getElementById('output').innerHTML = text
 
+      @incBorders = (grid) ->
+        for x in grid.elements when x.className == 'border'
+          val = parseInt x.value
+          x.value = if val < 9 then val + 1 else null
+
       @solveGrid = (grid) ->
         entryNums = for x in grid.elements when x.className == 'entry'
           parseInt x.value
@@ -40,8 +45,8 @@
 
       isValidSequence = ([coin1, coin2, coin3], coreNum) ->
         (!isMultiple coin1, coreNum) and
-        (!isMultiple coin1 * coin2, coreNum) and
-        (isMultiple coin1 * coin2 * coin3, coreNum)
+        (!isMultiple coin1 + coin2, coreNum) and
+        (isMultiple coin1 + coin2 + coin3, coreNum)
 
       isMultiple = (x, y) ->
         x % y == 0
@@ -50,7 +55,7 @@
       # http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.18.6972
 
       kCombinations = (k, items) ->
-        idxs = (0 for x in [0...items.length])
+        idxs = (0 for _ in [0...items.length])
         for indexCombination in indexCombinations idxs, 0, k
           (items[i] for i in indexCombination)
 
@@ -94,8 +99,9 @@
 	  <td><input type="number" class="border" size="2"/></td>
 	</tr>
       </table>
-      <input type="button" value="Solve!" onClick="solveGrid(this.form)"/>
-      <input type="reset" value="Reset" onClick="output('')"/>
+      <input type="button" value="Solve" onClick="solveGrid(this.form)"/>
+      <input type="button" value="Next Round" onClick="incBorders(this.form)"/>
+      <input type="reset" value="Clear" onClick="output('')"/>
       <br/>
       <span id="output"></span>
     </form>
