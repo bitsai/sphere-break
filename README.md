@@ -1,4 +1,4 @@
-[Inspiration](http://faqs.ign.com/articles/542/542518p1.html)
+Inspired by [Yevoc's sbreak programs](http://faqs.ign.com/articles/542/542518p1.html).
 
 A solver for Final Fantasy X-2's Sphere Break mini-game.
 
