@@ -2,74 +2,8 @@
 <html lang="en">
   <head>
     <title>Sphere Break Solver</title>
-    <script src="http://jashkenas.github.com/coffee-script/extras/coffee-script.js"></script>
-    <script type="text/coffeescript">
-      @output = (text) ->
-        document.getElementById('output').innerHTML = text
-
-      @incBorders = (grid) ->
-        for x in grid.elements when x.className == 'border'
-          val = parseInt x.value
-          x.value = if val < 9 then val + 1 else null
-
-      @solveGrid = (grid) ->
-        entryNums = for x in grid.elements when x.className == 'entry'
-          parseInt x.value
-        borderNums = for x in grid.elements when x.className == 'border'
-          parseInt x.value
-        entryCoins = (x for x in entryNums when not isNaN x)
-        borderCoins = (x for x in borderNums when not isNaN x)
-        solutions = for coreNum in [2..9]
-          coreNum + ': ' + bestSequence entryCoins, borderCoins, coreNum
-        output solutions.join '<br\>'
-
-      bestSequence = (entryCoins, borderCoins, coreNum) ->
-        seqs = validSequences entryCoins, borderCoins, coreNum
-        seqs.sort ([_, a2, a3], [_, b2, b3]) -> a2 * a3 - b2 * b3
-        seqs.pop()
-
-      validSequences = (entryCoins, borderCoins, coreNum) ->
-        seqs = []
-        for e in entryCoins
-          for [b1, b2] in allPairs borderCoins
-            seq = [e, b1, b2]
-            seqs.push seq if isValidSequence seq, coreNum
-        seqs
-
-      allPairs = (items) ->
-        pairs = []
-        for pair in kCombinations 2, items
-          pairs.push pair
-          pairs.push (pair.slice 0).reverse()
-        pairs
-
-      isValidSequence = ([coin1, coin2, coin3], coreNum) ->
-        (!isMultiple coin1, coreNum) and
-        (!isMultiple coin1 + coin2, coreNum) and
-        (isMultiple coin1 + coin2 + coin3, coreNum)
-
-      isMultiple = (x, y) ->
-        x % y == 0
-
-      # Use the Banker's Sequence algorithm to generate k-combinations
-      # http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.18.6972
-
-      kCombinations = (k, items) ->
-        idxs = (0 for _ in [0...items.length])
-        for indexCombination in indexCombinations idxs, 0, k
-          (items[i] for i in indexCombination)
-
-      indexCombinations = (idxs, pos, maxPos) ->
-        if pos < maxPos
-          start = if pos == 0 then 0 else idxs[pos - 1] + 1
-          combs = []
-          for i in [start...idxs.length]
-            idxs[pos] = i
-            combs = combs.concat indexCombinations idxs, pos + 1, maxPos
-          combs
-        else
-          [idxs.slice 0, maxPos]
-    </script>
+    <script src="http://cloud.github.com/downloads/bitsai/sphere-break/sphere-break.js"></script>
+    <script src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
   </head>
   <body>
     <form>
@@ -100,8 +34,8 @@
 	</tr>
       </table>
       <input type="button" value="Solve" onClick="solveGrid(this.form)"/>
-      <input type="button" value="Next Round" onClick="incBorders(this.form)"/>
-      <input type="reset" value="Clear" onClick="output('')"/>
+      <input type="button" value="Next Round" onClick="incBorderCoins(this.form)"/>
+      <input type="reset" value="Clear" onClick="setOutput('')"/>
       <br/>
       <span id="output"></span>
     </form>
